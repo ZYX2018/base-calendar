@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="base.tool.toolcalendar.dao.IMarkedDao">
+    <resultMap id="markedDay" type="base.tool.toolcalendar.dao.model.MarkedDay">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="marked_day" jdbcType="DATE" property="markedDate"/>
+        <result column="is_Holiday" jdbcType="TINYINT" property="isHoliday"/>
+    </resultMap>
+
+
+<select id="getOneMarkedDay" resultMap="markedDay" parameterType="Date">
+    select * from  marked_day where  marked_day=#{date}
+</select>
+
+ <select id="getMarkedDays"  resultMap="markedDay" >
+     select *  from marked_day where marked_day between #{begin} and #{off}
+ </select>
+
+    <insert id="insetMarkedDay" parameterType="base.tool.toolcalendar.dao.model.MarkedDay">
+        insert into  marked_day (marked_day,is_holiday) values (#{markedDate},#{isHoliday})
+    </insert>
+
+    <update id="upateTargetOfTheDay" parameterType="base.tool.toolcalendar.dao.model.MarkedDay">
+        update marked_day set is_holiday=#{isHoliday} where marked_day=#{markedDate}
+    </update>
+
+    <delete id="deleteOneMarkedDay" parameterType="Date">
+        delete from  marked_day where  marked_day=#{date}
+    </delete>
+</mapper>
